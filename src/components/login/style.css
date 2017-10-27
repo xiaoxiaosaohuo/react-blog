@@ -1,0 +1,39 @@
+.container{
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    height: 300px;
+}
+
+.formStyle{
+    width: 70%;
+    margin-left: 15%;
+    text-align: center;
+    padding-top: 20px;
+}
+.loginButton{
+    width: 60%;
+}
+
+.container{
+    height: 300px;
+    width: 285px;
+    text-align: center;
+    padding-top: 20px;
+    background-color: #fff;
+}
+.container>div{
+    background: #fff;
+
+}
+.container p:nth-child(2){
+    margin-top: 20px;
+}
+
+.container>img{
+    width: 27%;
+    margin-top: 20px;
+}
+.centerP{
+    margin:25px 0;
+}

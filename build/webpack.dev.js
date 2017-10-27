@@ -4,12 +4,12 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const OpenBrowserPlugin = require('open-browser-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const CleanPlugin = require('clean-webpack-plugin');
-const config = require('./config/config');
+const config = require('../config/config');
 
-const ROOT_PATH = path.resolve(__dirname);
+const ROOT_PATH = path.resolve(__dirname,'..');
 const ENTRY_PATH = path.resolve(ROOT_PATH, 'src');
 const OUTPUT_PATH = path.resolve(ROOT_PATH, 'dist');
-console.log(path.resolve(ENTRY_PATH, 'index.js'));
+
 
 module.exports = {
     entry: {
@@ -90,7 +90,7 @@ module.exports = {
             "progress.env.NODE_ENV": JSON.stringify('development')
         }),
         new HtmlWebpackPlugin({
-            title: "Nealyang's Blog",
+            title: "苦瓜和尚的博客",
             showErrors: true,
         }),
         new webpack.NoEmitOnErrorsPlugin(),//保证出错时页面不阻塞，且会在编译结束后报错
