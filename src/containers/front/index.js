@@ -5,12 +5,9 @@ import {
 } from 'react-router-dom'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import Banner from "../../components/banner"
-import Sider from "../../components/sider"
-import {Home} from '../../components/home'
 import NotFound from "../../components/notFound"
-import Login from "../../components/login"
-import Logined from "../../components/login/logined"
+// import Login from "../../components/login"
+// import Logined from "../../components/login/logined"
 import {actions} from '../../reducers/tags'
 import {actions as loginActions } from "../../reducers"
 import style from "./style.css"
@@ -89,8 +86,6 @@ const styles = theme => ({
     },
   },
   root: {
-    display: 'flex',
-    alignItems: 'stretch',
     minHeight: '100vh',
     width: '100%',
   },
@@ -181,13 +176,17 @@ class Front extends Component{
             <div className={classes.root}>
                 <AppBar onClick={this.handleDrawerToggle}>
                 </AppBar>
-
                 <AppDrawer
                   className={classes.drawer}
                   disablePermanent={disablePermanent}
                   onRequestClose={this.handleDrawerToggle}
                   mobileOpen={this.state.mobileOpen}
                 />
+                <main style={{height:1000}}>
+                    <div>
+                        思考对方立刻
+                    </div>
+                </main>
             </div>
         )
     }

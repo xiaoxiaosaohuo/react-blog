@@ -25,6 +25,7 @@ app.use('/',Express.static(path.join(__dirname,"..",'dist')));
 
 
 
+
 app.use(compression());
 app.use(favicon(path.join(__dirname,'..','static','favicon.ico')));
 

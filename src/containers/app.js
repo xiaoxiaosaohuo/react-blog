@@ -5,11 +5,11 @@ import {
     Switch,
     Redirect
 } from 'react-router-dom'
-import {notification} from 'antd'
+// import {notification} from 'antd'
 import { createMuiTheme, MuiThemeProvider } from 'material-ui/styles';
 import Front from "./front"
-import NotFound from "../components/notFound"
-import {Loading} from "../components/loading"
+// import NotFound from "../components/notFound"
+// import {Loading} from "../components/loading"
 import purple from 'material-ui/colors/purple';
 import green from 'material-ui/colors/green';
 import red from 'material-ui/colors/red';

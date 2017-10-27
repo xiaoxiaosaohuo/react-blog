@@ -9,9 +9,10 @@ import Typography from 'material-ui/Typography';
 import Divider from 'material-ui/Divider';
 import Hidden from 'material-ui/Hidden';
 import NavItem from './items';
+import ImageAvatars from "../avatar";
 // import Link from 'docs/src/modules/components/Link';
 // import { pageToTitle } from 'docs/src/modules/utils/helpers';
-
+import DrawerList  from '../drawerList'
 const styles = theme => ({
   paper: {
     width: 250,
@@ -29,7 +30,7 @@ const styles = theme => ({
   toolbar: {
     flexGrow: 1,
     flexDirection: 'column',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     justifyContent: 'center',
   },
   anchor: {
@@ -78,7 +79,7 @@ function reduceChildRoutes(props, activePage, items, childPage, index) {
   return items;
 }
 
-const GITHUB_RELEASE_BASE_URL = 'https://github.com/callemall/material-ui/releases/tag/';
+const GITHUB_RELEASE_BASE_URL = 'https://github.com/jinxin479';
 
 function AppDrawer(props, context) {
   const { classes, className, disablePermanent, mobileOpen, onRequestClose } = props;
@@ -87,22 +88,23 @@ function AppDrawer(props, context) {
     <div className={classes.nav}>
       <div className={classes.toolbarIe11}>
         <Toolbar className={classes.toolbar}>
-          {/* <Link className={classes.title} href="/" onClick={onRequestClose}>
+            <ImageAvatars></ImageAvatars>
             <Typography type="title" gutterBottom color="inherit">
-              Material-UI
+              苦瓜和尚
             </Typography>
-          </Link> */}
-          {/* {process.env.MATERIAL_UI_VERSION ? (
-            <Link
+
+            {/* <a
               className={classes.anchor}
-              href={`${GITHUB_RELEASE_BASE_URL}v${process.env.MATERIAL_UI_VERSION}`}
+              href={`${GITHUB_RELEASE_BASE_URL}`}
+              target="_blank"
             >
-              <Typography type="caption">{`v${process.env.MATERIAL_UI_VERSION}`}</Typography>
-            </Link>
-          ) : null} */}
+              <Typography type="caption">github</Typography>
+          </a> */}
+
           <Divider absolute />
         </Toolbar>
       </div>
+      <DrawerList></DrawerList>
       {/* {renderNavItems(props, context.pages, context.activePage)} */}
     </div>
   );
