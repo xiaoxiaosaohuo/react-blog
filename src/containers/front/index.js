@@ -6,7 +6,8 @@ import {
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import NotFound from "../../components/notFound"
-// import Login from "../../components/login"
+import Article from "../../components/article"
+import Background from "../../components/background"
 // import Logined from "../../components/login/logined"
 import {actions} from '../../reducers/tags'
 import {actions as loginActions } from "../../reducers"
@@ -16,6 +17,7 @@ import style from "./style.css"
 import { withStyles } from 'material-ui/styles';
 import AppBar from "../../components/appBar";
 import AppDrawer from "../../components/drawer";
+import AppFooter from "../../components/appFooter";
 const {get_all_tags} = actions;
 const {get_login,get_register} = loginActions
 
@@ -120,6 +122,10 @@ const styles = theme => ({
       display: 'none',
     },
   },
+  mainContainer:{
+      paddingTop:220,
+      transition:'padding-top 1.2s cubic-bezier(.45,0,0,1) 0ms'
+  }
 });
 class Front extends Component{
 
@@ -176,17 +182,23 @@ class Front extends Component{
             <div className={classes.root}>
                 <AppBar onClick={this.handleDrawerToggle}>
                 </AppBar>
+                <Background></Background>
                 <AppDrawer
                   className={classes.drawer}
                   disablePermanent={disablePermanent}
                   onRequestClose={this.handleDrawerToggle}
                   mobileOpen={this.state.mobileOpen}
                 />
-                <main style={{height:1000}}>
-                    <div>
-                        思考对方立刻
-                    </div>
-                </main>
+                <div className={classes.mainContainer}>
+
+
+                    <Switch >
+                        <Route path='/about' exact component={NotFound}/>
+                        <Route path='/article' exact component={Article}/>
+                    </Switch>
+
+                </div>
+                {/* <AppFooter></AppFooter> */}
             </div>
         )
     }

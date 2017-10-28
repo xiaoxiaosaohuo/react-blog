@@ -1,4 +1,5 @@
 import {combineReducers} from 'redux'
+import { routerReducer } from 'react-router-redux';
 import {reducer as tags} from './tags'
 const initialState = {
     isFetching: true,
@@ -75,6 +76,7 @@ export function reducer(state = initialState, action) {
 }
 
 export default combineReducers({
+    route:routerReducer,
     globalState: reducer,
     tags:tags
 })

@@ -1,5 +1,6 @@
 import React,{PureComponent} from 'react';
 import PropTypes from 'prop-types';
+import {Link} from 'react-router-dom';
 import { withStyles } from 'material-ui/styles';
 import ListSubheader from 'material-ui/List/ListSubheader';
 import List, { ListItem, ListItemIcon, ListItemText,ListItemSecondaryAction } from 'material-ui/List';
@@ -31,6 +32,9 @@ const styles = theme => ({
   badge: {
     margin: `0 ${theme.spacing.unit * 2}px`,
   },
+  noUnderline:{
+      textDecoration:'none'
+  }
 });
 
 class NestedList extends PureComponent{
@@ -45,7 +49,6 @@ class NestedList extends PureComponent{
     };
     render(){
         const { classes,children,title="" } = this.props;
-        console.log(children);
         return(
             <div>
 
@@ -104,12 +107,17 @@ class DrawerList extends PureComponent {
 
             </ListItem>
         </NestedList>
+        <Link to="/about" className={classes.noUnderline}>
         <ListItem button>
             <ListItemIcon>
               <ContactsIcon />
             </ListItemIcon>
+
             <ListItemText inset primary="关于我" />
+
         </ListItem>
+        </Link>
+
 
         <Divider />
       </List>

@@ -10,22 +10,11 @@ export default class NotFound extends Component{
         };
     }
 
-    enter = () =>{
-        this.setState({
-            animationType:'hinge'
-        });
-
-        setTimeout( ()=> {
-            this.setState({
-                animationType:'lightSpeedIn'
-            })
-        },5000)
-    }
 
     render(){
         return(
             <div className={styles.container}>
-                <img src={Img} className={`${style.animated} ${style[this.state.animationType]}`} onMouseEnter={this.enter}/>
+                <img src={Img} className={`${style.animated} ${style[this.state.animationType]}`} />
             </div>
         )
     }

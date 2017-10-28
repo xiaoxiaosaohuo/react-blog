@@ -1,24 +1,15 @@
-import React from 'react'
-import {render} from 'react-dom'
-import {Provider} from 'react-redux'
-import {AppContainer} from 'react-hot-loader'
+import React from 'react';
+import  {render}  from 'react-dom';
+import 'babel-polyfill';
+import Root from './store/config';
 
-import configureStore from './store/config'
+import Perf from 'react-addons-perf';
+window.Perf = Perf;
 
-import App from './containers/app'
-
-let div = document.createElement('div');
-div.setAttribute('id', 'app');
-document.body.appendChild(div);
-
-const mountNode = document.getElementById('app');
-const store = configureStore();
 render(
-        <Provider store={store}>
-           <App/>
-       </Provider>
+    <Root  />
     ,
-    mountNode
+    document.getElementById('app')
 );
 
 if(module.hot && process.env.NODE_ENV !== 'production'){

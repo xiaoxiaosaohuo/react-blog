@@ -14,6 +14,7 @@ const styles = theme => {
     return({
       root: {
         width: '100%',
+        zIndex: theme.zIndex.appBar,
       },
       flex: {
         flex: 1,
@@ -22,7 +23,6 @@ const styles = theme => {
         position: 'fixed',
         top: 0,
         width: '100%',
-        zindex: 1100,
         willchange: 'transform, top',
         transition: 'top 0.5s',
       },
@@ -30,9 +30,7 @@ const styles = theme => {
         marginLeft: -12,
         marginRight: 20,
       },
-      fixedTop:{
-          transition: 'top 0s',
-      },
+
       transparent: {
         backgroundcolor: 'rgba(0, 0, 0, 0) !important',
         boxshadow: '0px 1px 6px rgba(0, 0, 0, 0), 0px 1px 4px rgba(0, 0, 0, 0) !important',
@@ -79,8 +77,6 @@ class ButtonAppBar extends PureComponent {
         let top = true;
         let scrollTop = window.scrollY
         const {classes} = this.props
-        console.log(classes)
-
         if (scrollTop < 228 - 64 || (scrollTop < 228 && top)) {
         top = true
         let sum = scrollTop - 228 + 64;
@@ -123,7 +119,6 @@ class ButtonAppBar extends PureComponent {
     render(){
         const { classes,onClick } = this.props;
         const {className,outClassName} = this.state;
-        console.log(className);
         return (
           <div className={cn(classes.root,classes.header,outClassName)}>
             <AppBar position="static" className={className}>

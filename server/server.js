@@ -1,15 +1,20 @@
 import path from 'path'
 import Express from 'express'
-import favicon from 'serve-favicon'
 import httpProxy from 'http-proxy'
 import compression from 'compression'
 import history from 'connect-history-api-fallback'
 import config from '../config/config'
-
+const webpack = require('webpack')
+const webpackConfig = require('../build/webpack.dev')
 const app = new Express();
 const port = config.port;
+const ROOT_PATH = path.resolve(__dirname,'..');
+const ENTRY_PATH = path.resolve(ROOT_PATH, 'src');
+
+app.use(history());
 
 
+//代理API
 const targetUrl = `http://${config.apiHost}:${config.apiPort}`;
 const proxy = httpProxy.createProxyServer({
     target:targetUrl
@@ -18,40 +23,33 @@ app.use('/api',(req,res)=>{
     proxy.web(req,res,{target:targetUrl},function(e) { console.log(e) })
 });
 
-app.use(history());
-app.use('/',Express.static(path.join(__dirname,"..",'dist')));
-// app.use('/',Express.static(path.join(__dirname,"..",'static')));
+//热更新
+if(process.env.NODE_EVN!=='production'){
+    const compiler = webpack(webpackConfig)
 
-
-
+  console.log('Enable webpack dev and HMR middleware')
+  app.use(require('webpack-dev-middleware')(compiler, {
+    publicPath  : webpackConfig.output.publicPath,
+    contentBase : ENTRY_PATH,
+    hot         : true,
+    quiet       : false,
+    noInfo      : false,
+    lazy        : false,
+    stats       : {
+    chunks : false,
+    chunkModules : false,
+    colors : true
+    },
+  }))
+  // compiler.apply(new DashboardPlugin({ port: 3000 }));
+  app.use(require('webpack-hot-middleware')(compiler))
+  app.use(Express.static(path.resolve(ROOT_PATH,'static')))
+}else{
+    app.use('/',Express.static(path.join(__dirname,"..",'dist')));
+}
 
 
 app.use(compression());
-app.use(favicon(path.join(__dirname,'..','static','favicon.ico')));
-
-
-
-//热更新
-if(process.env.NODE_EVN!=='production'){
-    const Webpack = require('webpack');
-    const WebpackDevMiddleware = require('webpack-dev-middleware');
-    const WebpackHotMiddleware = require('webpack-hot-middleware');
-    const webpackConfig = require('../build/webpack.dev');
-
-    const compiler = Webpack(webpackConfig);
-
-    app.use(WebpackDevMiddleware(compiler, {
-        publicPath: '/',
-        historyApiFallback: true,
-        stats: {colors: true},
-        lazy: false,
-        watchOptions: {
-            aggregateTimeout: 300,
-            poll: true
-        },
-    }));
-    app.use(WebpackHotMiddleware(compiler));
-}
 
 app.listen(port,(err)=>{
     if(err){

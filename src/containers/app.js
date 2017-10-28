@@ -8,14 +8,20 @@ import {
 // import {notification} from 'antd'
 import { createMuiTheme, MuiThemeProvider } from 'material-ui/styles';
 import Front from "./front"
-// import NotFound from "../components/notFound"
+import NotFound from "../components/notFound"
 // import {Loading} from "../components/loading"
 import purple from 'material-ui/colors/purple';
 import green from 'material-ui/colors/green';
 import red from 'material-ui/colors/red';
+import blue  from 'material-ui/colors/blue';
 const theme = createMuiTheme({
   palette: {
     error: red,
+    background:{
+        footer:blue['500'],
+        appBar:'#3f51b5'
+    },
+
   },
 });
 class App extends Component{
@@ -25,9 +31,10 @@ class App extends Component{
             <Router>
                <div>
                    <Switch>
-                       {/* <Route path='/404' component={NotFound}/>
-                       <Route path='/admin' component={Admin}/> */}
-                       <Route component={Front}/>
+                       <Route path='/404' component={NotFound}/>
+
+                       {/* <Route path='/admin' component={Admin}/> */}
+                       <Route path="/" component={Front}/>
                    </Switch>
                    {/* {isFetching && <Loading/>} */}
                    {/* {this.props.notification && this.props.notification.content ?

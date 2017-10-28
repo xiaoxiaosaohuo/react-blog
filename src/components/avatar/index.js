@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withStyles } from 'material-ui/styles';
 import Avatar from 'material-ui/Avatar';
-import  Img from "./avatar.jpg";
 const styles = {
   row: {
     display: 'flex',
@@ -25,7 +24,7 @@ function ImageAvatars(props) {
       {/* <Avatar alt="Remy Sharp" src="/static/images/remy.jpg" className={classes.avatar} /> */}
       <Avatar
         alt="Adelle Charles"
-        src={Img}
+        src='/avatar.jpg'
         className={classNames(classes.avatar, classes.bigAvatar)}
       />
     </div>
