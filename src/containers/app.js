@@ -21,6 +21,20 @@ const theme = createMuiTheme({
         footer:blue['500'],
         appBar:'#3f51b5'
     },
+    shades:{
+        light:{
+            input:{
+                bottomLine:"#fff",
+                inputText:"#fff"
+            }
+        },
+        dark:{
+            input:{
+                bottomLine:"#fff",
+                inputText:"#fff"
+            }
+        }
+    }
 
   },
 });

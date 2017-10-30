@@ -48,7 +48,7 @@ class NestedList extends PureComponent{
       this.setState({ open: !this.state.open });
     };
     render(){
-        const { classes,children,title="" } = this.props;
+        const { classes,children,title="" ,onRequestClose} = this.props;
         return(
             <div>
 
@@ -72,7 +72,8 @@ class DrawerList extends PureComponent {
 
 
   render() {
-    const { classes } = this.props;
+      //点击关闭drawer
+    const { classes,onRequestClose } = this.props;
 
     return (
       <List className={classes.root}>
@@ -108,7 +109,7 @@ class DrawerList extends PureComponent {
             </ListItem>
         </NestedList>
         <Link to="/about" className={classes.noUnderline}>
-        <ListItem button>
+        <ListItem button onClick={onRequestClose}>
             <ListItemIcon>
               <ContactsIcon />
             </ListItemIcon>

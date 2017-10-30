@@ -81,9 +81,9 @@ function reduceChildRoutes(props, activePage, items, childPage, index) {
 
 const GITHUB_RELEASE_BASE_URL = 'https://github.com/jinxin479';
 
-function AppDrawer(props, context) {
+function AppDrawer(props) {
   const { classes, className, disablePermanent, mobileOpen, onRequestClose } = props;
-
+  console.log(mobileOpen);
   const drawer = (
     <div className={classes.nav}>
       <div className={classes.toolbarIe11}>
@@ -104,7 +104,7 @@ function AppDrawer(props, context) {
           <Divider absolute />
         </Toolbar>
       </div>
-      <DrawerList></DrawerList>
+      <DrawerList onRequestClose={onRequestClose}></DrawerList>
       {/* {renderNavItems(props, context.pages, context.activePage)} */}
     </div>
   );

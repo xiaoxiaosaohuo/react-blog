@@ -1,4 +1,5 @@
 import React,{PureComponent} from 'react';
+import {withRouter} from "react-router";
 import cn from "classnames";
 import { withStyles } from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
@@ -111,7 +112,7 @@ class ButtonAppBar extends PureComponent {
       this.oldScrollTop = scrollTop;
     }
     onSearch = ()=>{
-
+        this.props.history.push("/search")
     }
     componentWillUnmount(){
         document.removeEventListener('scroll', this.handleScroll, false);
@@ -119,6 +120,7 @@ class ButtonAppBar extends PureComponent {
     render(){
         const { classes,onClick } = this.props;
         const {className,outClassName} = this.state;
+        console.log(this.props);
         return (
           <div className={cn(classes.root,classes.header,outClassName)}>
             <AppBar position="static" className={className}>
@@ -146,4 +148,4 @@ class ButtonAppBar extends PureComponent {
 
 
 
-export default withStyles(styles)(ButtonAppBar);
+export default withRouter(withStyles(styles)(ButtonAppBar));

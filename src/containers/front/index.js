@@ -8,7 +8,7 @@ import {bindActionCreators} from 'redux'
 import NotFound from "../../components/notFound"
 import Article from "../../components/article"
 import Background from "../../components/background"
-// import Logined from "../../components/login/logined"
+import Search from "../../pages/search"
 import {actions} from '../../reducers/tags'
 import {actions as loginActions } from "../../reducers"
 import style from "./style.css"
@@ -138,6 +138,7 @@ class Front extends Component{
     }
 
   handleDrawerToggle = () => {
+    //   alert(2)
     this.setState({ mobileOpen: !this.state.mobileOpen });
   };
 
@@ -195,6 +196,7 @@ class Front extends Component{
                     <Switch >
                         <Route path='/about' exact component={NotFound}/>
                         <Route path='/article' exact component={Article}/>
+                        <Route path='/search' exact component={Search}/>
                     </Switch>
 
                 </div>
