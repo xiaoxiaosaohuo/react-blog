@@ -38,26 +38,29 @@ const theme = createMuiTheme({
 
   },
 });
+// .fade-enter {
+//   opacity: 0;
+//   z-index: 1;
+// }
+// .fade-enter.fade-enter-active {
+//   opacity: 1;
+//   transition: opacity 250ms ease-in;
+// }
+
 class App extends Component{
     render(){
         return(
             <MuiThemeProvider theme={theme}>
-            <Router>
-               <div>
-                   <Switch>
-                       <Route path='/404' component={NotFound}/>
 
-                       {/* <Route path='/admin' component={Admin}/> */}
-                       <Route path="/" component={Front}/>
-                   </Switch>
-                   {/* {isFetching && <Loading/>} */}
-                   {/* {this.props.notification && this.props.notification.content ?
-                       (this.props.notification.type === 1 ?
-                           this.openNotification('success', this.props.notification.content) :
-                           this.openNotification('error', this.props.notification.content)) :
-                       null} */}
-               </div>
+            <Router>
+
+               <Switch>
+                   <Route path='/404' component={NotFound}/>
+                   <Route path="/" component={Front}/>
+               </Switch>
+
            </Router>
+
            </MuiThemeProvider>
         )
     }

@@ -5,13 +5,17 @@ import {
 } from 'react-router-dom'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
+
+
+
 import NotFound from "../../components/notFound"
 import Article from "../../components/article"
 import Background from "../../components/background"
 import Search from "../../pages/search"
 import {actions} from '../../reducers/tags'
 import {actions as loginActions } from "../../reducers"
-import style from "./style.css"
+var style = require('./style.css')
 
 // import Button from 'material-ui/Button';
 import { withStyles } from 'material-ui/styles';
@@ -21,7 +25,15 @@ import AppFooter from "../../components/appFooter";
 const {get_all_tags} = actions;
 const {get_login,get_register} = loginActions
 
-
+const Fade = ({ children, ...props }) => (
+  <CSSTransition
+    {...props}
+    timeout={1000}
+    classNames="fade"
+  >
+    {children}
+  </CSSTransition>
+);
 const styles = theme => ({
   '@global': {
     html: {
@@ -86,6 +98,41 @@ const styles = theme => ({
         opacity: 0.6,
       },
     },
+    fadeEnter: {
+      opacity: 0.01,
+      '&.fadeEnterActive':{
+          opacity: 1,
+          transition: 'opacity 5000ms ease-in',
+      }
+  },
+    fadeExit: {
+      opacity: 1,
+      '&.fadeExitActive':{
+          opacity: 0.01,
+          transition: 'opacity 5800ms ease-in',
+      }
+  },
+
+  '.pageSlider-enter': {
+      transform: 'translate3d(100%, 0, 0)',
+      opacity: 0.01,
+      '&.pageSlider-enter-active': {
+         opacity: 1,
+        transform: 'translate3d(0, 0, 0)',
+        transition: 'all 600ms'
+      }
+ },
+ '.pageSlider-exit': {
+  transform: 'translate3d(0, 0, 0)',
+  opacity: 1,
+  '&.pageSlider-exit-active':{
+      opacity: 0.01,
+      transform: 'translate3d(-100%, 0, 0)',
+      transition: 'all 600ms'
+  }
+ }
+
+
   },
   root: {
     minHeight: '100vh',
@@ -125,7 +172,8 @@ const styles = theme => ({
   mainContainer:{
       paddingTop:220,
       transition:'padding-top 1.2s cubic-bezier(.45,0,0,1) 0ms'
-  }
+  },
+
 });
 class Front extends Component{
 
@@ -164,6 +212,7 @@ class Front extends Component{
     }
     render(){
         const {categories,history,userInfo,get_register,get_login} = this.props;
+        console.log(history);
         const {url} = this.props.match;
         const { children, classes, uiTheme } = this.props;
         const title =null
@@ -190,17 +239,33 @@ class Front extends Component{
                   onRequestClose={this.handleDrawerToggle}
                   mobileOpen={this.state.mobileOpen}
                 />
+
+
+
+
                 <div className={classes.mainContainer}>
 
+                    <TransitionGroup>
+                        <CSSTransition key={this.props.location.pathname.split('/')[1]}
+                            timeout={500}
+                            classNames='pageSlider'
+                            mountOnEnter={true}
+                            unmountOnExit={true}>
+                            <div >
 
-                    <Switch >
-                        <Route path='/about' exact component={NotFound}/>
-                        <Route path='/article' exact component={Article}/>
-                        <Route path='/search' exact component={Search}/>
-                    </Switch>
+
+                            <Switch location={this.props.location}>
+                                <Route path='/about' exact component={NotFound}/>
+                                <Route path='/article' exact component={Article}/>
+                                <Route path='/search' exact component={Search}/>
+                            </Switch>
+                            </div>
+                        </CSSTransition>
+                    </TransitionGroup>
+
 
                 </div>
-                {/* <AppFooter></AppFooter> */}
+
             </div>
         )
     }

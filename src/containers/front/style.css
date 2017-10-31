@@ -17,3 +17,35 @@
 .content{
     width: 570px;
 }
+
+
+
+:global {
+    @keyframes e(":global(enterIn)") {
+        from {
+            transform: translateY(100px);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0px);
+            opacity: 1;
+        }
+    }
+    .route-page-enter {
+        position: absolute;
+        top: 0;
+        animation: enterIn 450ms;
+        animation-delay: 450ms;
+        animation-fill-mode: both;
+    }
+    .route-page-enter.route-page-enter-active {}
+    .route-page-leave {
+        opacity: 1;
+        position: absolute;
+        top: 0;
+        transition: opacity 450ms;
+    }
+    .route-page-leave.route-page-leave-active {
+        opacity: 0;
+    }
+}
