@@ -4,7 +4,7 @@ import { withStyles } from 'material-ui/styles';
 import Grid from 'material-ui/Grid';
 import Paper from 'material-ui/Paper';
 import Typography from 'material-ui/Typography';
-
+import PostCard   from '../card';
 const styles = theme => ({
 
     root:{
@@ -34,7 +34,12 @@ function PaperSheet(props) {
     <Grid container  justify="center" className={classes.root}>
         <Grid container justify="center" className={classes.container}>
                 <Grid item xs={12} md={12} sm={12}>
-                  <Paper className={classes.paper} elevation={4}>
+                    <PostCard
+                        
+                        >
+
+                    </PostCard>
+                  {/* <Paper className={classes.paper} elevation={4}>
                        <img src="/2.jpg"></img>
                     <Typography type="headline" component="h3">
                       This is a sheet of paper.
@@ -42,7 +47,7 @@ function PaperSheet(props) {
                     <Typography type="body1" component="p">
                       Paper can be used to build surface or other elements for your application.
                     </Typography>
-                  </Paper>
+                  </Paper> */}
                 </Grid>
                 <Grid item xs={12} md={12} sm={12}>
                   <Paper className={classes.paper} elevation={4}>

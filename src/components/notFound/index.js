@@ -9,7 +9,9 @@ export default class NotFound extends Component{
             animationType:'swing'
         };
     }
-
+componentDidMount(){
+    // alert(2)
+}
 
     render(){
         return(

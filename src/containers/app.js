@@ -5,11 +5,8 @@ import {
     Switch,
     Redirect
 } from 'react-router-dom'
-// import {notification} from 'antd'
 import { createMuiTheme, MuiThemeProvider } from 'material-ui/styles';
-import Front from "./front"
-import NotFound from "../components/notFound"
-// import {Loading} from "../components/loading"
+import Main from "./main";
 import purple from 'material-ui/colors/purple';
 import green from 'material-ui/colors/green';
 import red from 'material-ui/colors/red';
@@ -38,28 +35,14 @@ const theme = createMuiTheme({
 
   },
 });
-// .fade-enter {
-//   opacity: 0;
-//   z-index: 1;
-// }
-// .fade-enter.fade-enter-active {
-//   opacity: 1;
-//   transition: opacity 250ms ease-in;
-// }
+
 
 class App extends Component{
     render(){
         return(
             <MuiThemeProvider theme={theme}>
 
-            <Router>
-
-               <Switch>
-                   <Route path='/404' component={NotFound}/>
-                   <Route path="/" component={Front}/>
-               </Switch>
-
-           </Router>
+                <Main></Main>
 
            </MuiThemeProvider>
         )

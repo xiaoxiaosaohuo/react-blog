@@ -9,7 +9,7 @@ import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui-icons/Menu';
 import SearchIcon from 'material-ui-icons/Search';
-
+import ArrowBackIcon from 'material-ui-icons/ArrowBack'
 import {throttle} from "lodash";
 const styles = theme => {
     return({
@@ -114,25 +114,36 @@ class ButtonAppBar extends PureComponent {
     onSearch = ()=>{
         this.props.history.push("/search")
     }
+    onBack = ()=>{
+        this.props.history.goBack()
+    }
     componentWillUnmount(){
         document.removeEventListener('scroll', this.handleScroll, false);
     }
     render(){
-        const { classes,onClick } = this.props;
+        const { classes,onClick,location } = this.props;
         const {className,outClassName} = this.state;
-        console.log(this.props);
+        const showBackButton = location.pathname!=="/";
         return (
           <div className={cn(classes.root,classes.header,outClassName)}>
             <AppBar position="static" className={className}>
               <Toolbar>
-                <IconButton
+                {!showBackButton&&<IconButton
                     className={classes.menuButton}
                     onClick={onClick}
                     color="contrast"
                     aria-label="Menu"
                     >
                   <MenuIcon />
-                </IconButton>
+              </IconButton>}
+              {showBackButton&&<IconButton
+                  className={classes.menuButton}
+                  onClick={this.onBack}
+                  color="contrast"
+                  aria-label="Menu"
+                  >
+                <ArrowBackIcon />
+            </IconButton>}
                 <Typography type="title" color="inherit" className={classes.flex}>
                   苦瓜和尚
                 </Typography>

@@ -15,7 +15,7 @@ import Background from "../../components/background"
 import Search from "../../pages/search"
 import {actions} from '../../reducers/tags'
 import {actions as loginActions } from "../../reducers"
-var style = require('./style.css')
+
 
 // import Button from 'material-ui/Button';
 import { withStyles } from 'material-ui/styles';
@@ -212,7 +212,6 @@ class Front extends Component{
     }
     render(){
         const {categories,history,userInfo,get_register,get_login} = this.props;
-        console.log(history);
         const {url} = this.props.match;
         const { children, classes, uiTheme } = this.props;
         const title =null
@@ -230,7 +229,7 @@ class Front extends Component{
         }
         return(
             <div className={classes.root}>
-                <AppBar onClick={this.handleDrawerToggle}>
+                <AppBar onClick={this.handleDrawerToggle} >
                 </AppBar>
                 <Background></Background>
                 <AppDrawer
