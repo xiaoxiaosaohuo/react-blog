@@ -59,6 +59,9 @@ const styles = theme => ({
 
 
     },
+    img:{
+        width:'100%'
+    }
 
 
 
@@ -93,7 +96,7 @@ class Search extends PureComponent {
                     InputClassName="aa"
                 />
 
-                <img src="1.jpg"></img>
+                <img src="/fuji.jpg" className={classes.img}></img>
 
 
             </Grid>

@@ -1,22 +1,20 @@
 
-import React from 'react';
+import React ,{PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
-import classnames from 'classnames';
+import cn from 'classnames';
 import Card, { CardHeader, CardMedia, CardContent, CardActions } from 'material-ui/Card';
 import Collapse from 'material-ui/transitions/Collapse';
 import Avatar from 'material-ui/Avatar';
 import IconButton from 'material-ui/IconButton';
 import Typography from 'material-ui/Typography';
 import red from 'material-ui/colors/red';
+import grey from 'material-ui/colors/grey';
+import blue from 'material-ui/colors/blue';
 import FavoriteIcon from 'material-ui-icons/Favorite';
 import ShareIcon from 'material-ui-icons/Share';
-import ExpandMoreIcon from 'material-ui-icons/ExpandMore';
-
 const styles = theme => ({
-  // card: {
-  //   maxWidth: 960,
-  // },
+
   media: {
     height: 194,
   },
@@ -35,17 +33,60 @@ const styles = theme => ({
   flexGrow: {
     flex: '1 1 auto',
   },
+  iconHover: {
+    fill: grey[500],
+    '&:hover': {
+      fill: red[200],
+    },
+  },
+  favorite:{
+      fill: red[500],
+      '&:hover': {
+        fill: red[200],
+      },
+  },
+  number:{
+      ...theme.typography.subheading,
+      paddingLeft:theme.spacing.unit
+  },
+  title:theme.typography.title,
+  tags:{
+      paddingRight:theme.spacing.unit*2,
+      '& a':{
+          color:blue[500],
+          paddingLeft:theme.spacing.unit,
+          paddingRight:theme.spacing.unit
+      }
+
+  }
 });
 
-class PostCard extends React.Component {
-  state = { expanded: false };
+class PostCard extends PureComponent {
+    constructor(props){
+        super(props)
+        this.state = {
+            favorite: false,
+            number:4
+        }
+    }
+
 
   handleExpandClick = () => {
     this.setState({ expanded: !this.state.expanded });
-  };
+  }
+  handleFavorite = ()=>{
+      this.setState((prevState)=>{
+          return {
+              favorite:!prevState.favorite,
+              number:prevState.favorite?prevState.number-1:prevState.number+1
+          }
+      })
+      console.log("我喜欢了啊啊 ");
+  }
 
   render() {
     const { classes } = this.props;
+    const {favorite,number} = this.state;
 
     return (
       <div>
@@ -53,19 +94,19 @@ class PostCard extends React.Component {
           <CardHeader
             avatar={
               <Avatar
-                  aria-label="Recipe"
+                  aria-label="avatar"
                   src='/avatar.jpg'
                   className={classes.avatar}>
 
               </Avatar>
             }
-            title="Shrimp and Chorizo Paella"
-            subheader="September 14, 2016"
+            title={<span className={classes.title}>React源码解析</span>}
+            subheader="2017-09-21"
           />
           <CardMedia
             className={classes.media}
             image="/2.jpg"
-            title="Contemplative Reptile"
+            title="media"
           />
           <CardContent>
             <Typography component="p">
@@ -74,15 +115,30 @@ class PostCard extends React.Component {
             </Typography>
           </CardContent>
           <CardActions disableActionSpacing>
-            <IconButton aria-label="Add to favorites">
-              <FavoriteIcon />
-            </IconButton>
-            <IconButton aria-label="Share">
-              <ShareIcon />
+            <IconButton
+                onClick = {this.handleFavorite}
+                aria-label="Add to favorites">
+              <FavoriteIcon
+                  className={cn(classes.iconHover,{[classes.favorite]:favorite})}
+              />
+              <span className={classes.number}>{number}</span>
             </IconButton>
             <div className={classes.flexGrow} />
-            
+            <div className={classes.tags}>
+                <a aria-label="Share">
+                    React
+                </a>
+                <a aria-label="Share">
+                  算法
+              </a>
+                <a aria-label="Share">
+                    Node
+                </a>
+            </div>
+
           </CardActions>
+
+
 
         </Card>
       </div>

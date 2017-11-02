@@ -28,7 +28,7 @@ const styles = theme => ({
 
 });
 
-function PaperSheet(props) {
+const  PaperSheet = (props)=> {
   const { classes } = props;
   return (
     <Grid container  justify="center" className={classes.root}>
@@ -37,7 +37,6 @@ function PaperSheet(props) {
                     <PostCard
                         
                         >
-
                     </PostCard>
                   {/* <Paper className={classes.paper} elevation={4}>
                        <img src="/2.jpg"></img>
