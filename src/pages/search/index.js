@@ -7,6 +7,7 @@ import TextField from 'material-ui/TextField';
 
 import Transition from 'react-transition-group/Transition';
 
+import BackTop from "../../components/backTop";
 const duration = 300;
 
 const defaultStyle = {
@@ -98,7 +99,7 @@ class Search extends PureComponent {
 
                 <img src="/fuji.jpg" className={classes.img}></img>
 
-
+                <BackTop></BackTop>
             </Grid>
         )
     }
