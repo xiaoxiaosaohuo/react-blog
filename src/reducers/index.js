@@ -20,27 +20,26 @@ export const actionsTypes = {
 };
 
 export const actions = {
-    get_login: function (username, password) {
+    login: function (userInfo) {
         return {
             type: actionsTypes.USER_LOGIN,
-            username,
-            password
+            ...userInfo
         }
     },
-    get_register: function (data) {
+    register: function (data) {
         return {
             type: actionsTypes.USER_REGISTER,
             data
         }
     },
-    clear_msg: function () {
+    clearMsg: function () {
         return {
             type: actionsTypes.SET_MESSAGE,
-            msgType: 1,
-            msgContent: ''
+            success: false,
+            msg: ''
         }
     },
-    user_auth:function () {
+    userAuth:function () {
         return{
             type:actionsTypes.USER_AUTH
         }
@@ -62,8 +61,8 @@ export function reducer(state = initialState, action) {
                 ...state,
                 isFetching: false,
                 msg: {
-                    type: action.msgType,
-                    content: action.msgContent
+                    success: action.success,
+                    msg: action.msg
                 }
             };
         case actionsTypes.RESPONSE_USER_INFO:
@@ -77,6 +76,6 @@ export function reducer(state = initialState, action) {
 
 export default combineReducers({
     route:routerReducer,
-    globalState: reducer,
+    appState: reducer,
     tags:tags
 })

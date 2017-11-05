@@ -12,6 +12,7 @@ import { withStyles } from 'material-ui/styles';
 import Front from "./front"
 import NotFound from "../components/notFound"
 import Admin from "../components/admin"
+import Edit from "../pages/edit"
 const styles = theme => ({
   '@global': {
     html: {
@@ -122,6 +123,7 @@ class Main extends Component{
                <Switch>
                    <Route path='/404' component={NotFound}/>
                    <Route path="/admin" component={Admin}/>
+                   <Route path="/edit" component={Edit}/>
                    <Route path="/" component={Front}/>
                </Switch>
 

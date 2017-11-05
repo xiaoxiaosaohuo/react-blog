@@ -43,12 +43,11 @@ class Admin extends PureComponent{
 
 
     render(){
-        const { classes } = this.props;
-
+        const { classes ,history} = this.props;
         return(
             <div className={classes.root}>
                 <header className={classes.header}></header>
-                <Login className={classes.login}></Login>
+                <Login className={classes.login} history={history}></Login>
                 <footer className={classes.footer}></footer>
             </div>
         )

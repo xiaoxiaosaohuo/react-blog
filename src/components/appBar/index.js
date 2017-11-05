@@ -128,22 +128,15 @@ class ButtonAppBar extends PureComponent {
           <div className={cn(classes.root,classes.header,outClassName)}>
             <AppBar position="static" className={className}>
               <Toolbar>
-                {!showBackButton&&<IconButton
+                <IconButton
                     className={classes.menuButton}
                     onClick={onClick}
                     color="contrast"
                     aria-label="Menu"
                     >
                   <MenuIcon />
-              </IconButton>}
-              {showBackButton&&<IconButton
-                  className={classes.menuButton}
-                  onClick={this.onBack}
-                  color="contrast"
-                  aria-label="Menu"
-                  >
-                <ArrowBackIcon />
-            </IconButton>}
+              </IconButton>
+
                 <Typography type="title" color="inherit" className={classes.flex}>
                   苦瓜和尚
                 </Typography>

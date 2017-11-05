@@ -6,11 +6,16 @@ import history from 'connect-history-api-fallback'
 import config from '../config/config'
 const webpack = require('webpack')
 const webpackConfig = require('../build/webpack.dev')
+const  morgan = require('morgan')
 const app = new Express();
 const port = config.port;
 const ROOT_PATH = path.resolve(__dirname,'..');
 const ENTRY_PATH = path.resolve(ROOT_PATH, 'src');
 
+
+
+
+app.use(morgan('dev'))
 app.use(history());
 
 
@@ -51,6 +56,10 @@ if(process.env.NODE_EVN!=='production'){
 
 app.use(compression());
 
+app.use(function(err, req, res, next) {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
 app.listen(port,(err)=>{
     if(err){
         console.error(err)

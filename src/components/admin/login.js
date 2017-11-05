@@ -1,16 +1,19 @@
 import React,{Component} from "react";
-import classNames from 'classnames';
+
 import PropTypes from 'prop-types';
+
+import {  bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
 import { withStyles } from 'material-ui/styles';
 import purple from 'material-ui/colors/purple';
-import IconButton from 'material-ui/IconButton';
 import Button from 'material-ui/Button';
-import Card, { CardActions, CardContent } from 'material-ui/Card';
-import Input, { InputLabel, InputAdornment } from 'material-ui/Input';
-import { FormControl, FormHelperText } from 'material-ui/Form';
-import Visibility from 'material-ui-icons/Visibility';
-import VisibilityOff from 'material-ui-icons/VisibilityOff';
+import Card, {  CardContent } from 'material-ui/Card';
+import Input, { InputLabel, } from 'material-ui/Input';
+import { FormControl} from 'material-ui/Form';
 
+
+import {actions as IndexActions} from '../../reducers/index'
+console.log(IndexActions);
 const styles = theme => ({
   root: {
     width:400
@@ -33,7 +36,18 @@ const styles = theme => ({
     '&:after': {
       backgroundColor: purple[500],
     },
+
   },
+
+  input:{
+      height:'2em'
+  },
+  button:{
+      height:'3em'
+  }
+
+
+
 
 });
 class Login extends Component{
@@ -58,9 +72,22 @@ class Login extends Component{
   handleClickShowPasssword = () => {
     this.setState({ showPassword: !this.state.showPassword });
   };
-    render(){
-        const { classes,className } = this.props;
 
+  handleSubmit = (e)=>{
+      const {name,password} = this.state;
+      this.props.login({username:name,password:password})
+  }
+  componentWillReceiveProps(nextProps){
+      const {userInfo} = nextProps;
+      console.log(userInfo);
+      if(userInfo.username!=this.props.userInfo.username){
+        //   alert(22)
+          this.props.history.push("/edit")
+      }
+  }
+    render(){
+        const { classes,className,location } = this.props;
+            console.log(this.props);
         return(
             <div className={className}>
 
@@ -71,15 +98,17 @@ class Login extends Component{
                           FormControlClasses={{
                             focused: classes.inputLabelFocused,
                           }}
-                          htmlFor="custom-color-input"
+                          htmlFor="name"
                         >
                           Name
                         </InputLabel>
                         <Input
                           classes={{
                             inkbar: classes.inputInkbar,
+                            input:classes.input
                           }}
-                          id="custom-color-input"
+                          id="name"
+                          onChange={this.handleChange('name')}
                         />
                       </FormControl>
                     <FormControl className={classes.formControl}>
@@ -92,24 +121,21 @@ class Login extends Component{
                         id="password"
                         classes={{
                           inkbar: classes.inputInkbar,
+                          input:classes.input
                         }}
                         type={'password'}
                         value={this.state.password}
                         onChange={this.handleChange('password')}
-                        // endAdornment={
-                        //   <InputAdornment position="end">
-                        //     <IconButton
-                        //       onClick={this.handleClickShowPasssword}
-                        //       onMouseDown={this.handleMouseDownPassword}
-                        //     >
-                        //       {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
-                        //     </IconButton>
-                        //   </InputAdornment>
-                        // }
+
                       />
                     </FormControl>
                     <FormControl className={classes.formControl}>
-                        <Button raised color="primary" className={classes.button}>
+                        <Button
+                            onClick={this.handleSubmit}
+                            raised
+                            color="primary"
+                            className={classes.button}
+                            >
                             登录
                       </Button>
                     </FormControl>
@@ -122,4 +148,13 @@ class Login extends Component{
     }
 }
 
-export default withStyles(styles)(Login);
+const mapStateToProps = state => ({
+    location:state.route.location,
+    userInfo:state.appState.userInfo
+})
+const mapDispatchToProps = dispatch => ({
+  ...bindActionCreators({login:IndexActions.login,},dispatch)
+
+})
+
+export default  connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(Login));

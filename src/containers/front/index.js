@@ -277,7 +277,7 @@ Front.defaultProps = {
 function mapStateToProps(state) {
     return{
         categories:state.tags,
-        userInfo: state.globalState.userInfo
+        userInfo: state.appState.userInfo
     }
 }
 const mapDispatchToProps = dispatch => ({

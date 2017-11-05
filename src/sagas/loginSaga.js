@@ -7,7 +7,7 @@ export function* login(username, password) {
     try {
         return yield call(post, '/user/login', {username, password})
     } catch (error) {
-        yield put({type:IndexActionTypes.SET_MESSAGE,msgContent:'用户名或密码错误',msgType:0});
+        yield put({type:IndexActionTypes.SET_MESSAGE,msg:'用户名或密码错误',success:false});
     } finally {
         yield put({type: IndexActionTypes.FETCH_END});
     }
@@ -18,18 +18,19 @@ export function* register (data) {
     try {
         return yield call(post, '/user/register', data)
     } catch (error) {
-        yield put({type:IndexActionTypes.SET_MESSAGE,msgContent:'注册失败',msgType:0});
+        yield put({type:IndexActionTypes.SET_MESSAGE,msg:'注册失败',success:false});
     } finally {
         yield put({type: IndexActionTypes.FETCH_END});
     }
 }
 
 export function* loginFlow() {
+    //触发登录，--开始发请求--成功或者失败--设置信息
     while (true) {
         let request = yield take(IndexActionTypes.USER_LOGIN);
         let response = yield call(login, request.username, request.password);
         if(response&&response.code === 0){
-            yield put({type:IndexActionTypes.SET_MESSAGE,msgContent:'登录成功!',msgType:1});
+            yield put({type:IndexActionTypes.SET_MESSAGE,msg:'登录成功!',success:true});
             yield put({type:IndexActionTypes.RESPONSE_USER_INFO,data:response.data})
         }
     }
@@ -40,7 +41,7 @@ export function* registerFlow () {
         let request = yield take(IndexActionTypes.USER_REGISTER);
         let response = yield call(register, request.data);
         if(response&&response.code === 0){
-            yield put({type:IndexActionTypes.SET_MESSAGE,msgContent:'注册成功!',msgType:1});
+            yield put({type:IndexActionTypes.SET_MESSAGE,msg:'注册成功!',success:true});
             yield put({type:IndexActionTypes.RESPONSE_USER_INFO,data:response.data})
         }
 
