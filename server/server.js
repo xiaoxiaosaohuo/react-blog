@@ -18,7 +18,6 @@ const ENTRY_PATH = path.resolve(ROOT_PATH, 'src');
 app.use(morgan('dev'))
 app.use(history());
 
-
 //代理API
 const targetUrl = `http://${config.apiHost}:${config.apiPort}`;
 const proxy = httpProxy.createProxyServer({

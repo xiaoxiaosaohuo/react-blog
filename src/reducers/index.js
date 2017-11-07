@@ -1,6 +1,7 @@
 import {combineReducers} from 'redux'
 import { routerReducer } from 'react-router-redux';
 import {reducer as tags} from './tags'
+import {reducer as article} from './article'
 const initialState = {
     isFetching: true,
     msg: {
@@ -16,7 +17,8 @@ export const actionsTypes = {
     USER_REGISTER: "USER_REGISTER",
     RESPONSE_USER_INFO: "RESPONSE_USER_INFO",
     SET_MESSAGE: "SET_MESSAGE",
-    USER_AUTH:"USER_AUTH"
+    USER_AUTH:"USER_AUTH",
+
 };
 
 export const actions = {
@@ -43,7 +45,7 @@ export const actions = {
         return{
             type:actionsTypes.USER_AUTH
         }
-    }
+    },
 };
 
 export function reducer(state = initialState, action) {
@@ -77,5 +79,6 @@ export function reducer(state = initialState, action) {
 export default combineReducers({
     route:routerReducer,
     appState: reducer,
+    article:article,
     tags:tags
 })
