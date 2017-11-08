@@ -14,7 +14,7 @@ import TextField from 'material-ui/TextField';
 import purple from 'material-ui/colors/purple';
 import Save from 'material-ui-icons/Save';
 import Send from 'material-ui-icons/Send';
-
+import MuUpLoad from '../../components/upload';
 import {actions as IndexActions} from '../../reducers/article'
 const content = {"entityMap":{},"blocks":[{"key":"637gr","text":"Initialized from content state.","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}]};
 const styles = theme => ({
@@ -22,6 +22,7 @@ const styles = theme => ({
     paddingTop: 16,
     paddingBottom: 16,
     marginTop: theme.spacing.unit * 3,
+    with:960
   }),
   container:{
       maxWidth:960,
@@ -65,8 +66,16 @@ const styles = theme => ({
       '& .rdw-option-active':{
           backgroundColor:"#ddd"
       },
-     
-
+  },
+  upload:{
+      width:'100%',
+      height:192,
+      minHeight:192,
+      textAlign: 'center',
+      background: '#f2f3f4',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
   }
 
 
@@ -93,6 +102,7 @@ const styles = theme => ({
         options: ['link'],
       },
 
+
     }
 class EditorConvertToMarkdown extends Component {
     constructor(props){
@@ -114,7 +124,7 @@ class EditorConvertToMarkdown extends Component {
             author:"jinxin",
             "title":"第一票",
             content:JSON.stringify(data),
-            publish:false,
+            isPublish:false,
             tags:["react","express"]
         })
     }
@@ -125,8 +135,7 @@ class EditorConvertToMarkdown extends Component {
     const {classes} = this.props
     return (
         <div>
-
-            <Grid   className={classes.buttonGroup} item xs={12}>
+            <Grid   className={classes.buttonGroup}  >
                 <Grid container justify="center" direction ="row" alignItems="center" >
                     <Grid    >
                         <Button
@@ -135,6 +144,7 @@ class EditorConvertToMarkdown extends Component {
                             aria-label="send"
                             className={classes.button}
                             onClick={this.handleSave}
+                            title="发布"
                             >
                             <Send />
                         </Button>
@@ -148,9 +158,17 @@ class EditorConvertToMarkdown extends Component {
                 </Grid>
 
             </Grid>
-        <Grid container  justify="center" className={classes.root}>
+        <Grid container  justify="center" className={classes.root} >
             <Grid   className={classes.container} item xs={12}>
-                  <Paper className={classes.root} elevation={4}>
+                    <MuUpLoad
+                        listType="card"
+                        wrapperClass = {classes.upload}
+                        action="/api/upload"
+                        >
+
+                    </MuUpLoad>
+                    <img src="/uploads/file-1510122577190.jpeg"></img>
+
                       <TextField
                           className={classes.input}
                           fullWidth
@@ -176,7 +194,6 @@ class EditorConvertToMarkdown extends Component {
                           </div>
 
                         </div>
-                </Paper>
             </Grid>
 
         </Grid>

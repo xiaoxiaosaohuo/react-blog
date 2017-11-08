@@ -109,14 +109,14 @@ class DrawerList extends PureComponent {
             </ListItem>
         </NestedList>
         <Link to="/about" className={classes.noUnderline}>
-        <ListItem button onClick={onRequestClose}>
-            <ListItemIcon>
-              <ContactsIcon />
-            </ListItemIcon>
+            <ListItem button onClick={onRequestClose}>
+                <ListItemIcon>
+                  <ContactsIcon />
+                </ListItemIcon>
 
-            <ListItemText inset primary="关于我" />
+                <ListItemText inset primary="关于我" />
 
-        </ListItem>
+            </ListItem>
         </Link>
 
 

@@ -20,24 +20,42 @@ router.post('/createArticle', (req, res) => {
             Article.findOne({_id: json._id})
                 .then(data=>{
                     // console.log(data);
-                    responseClient(res, 200, 0, '注册成功', data);
+                    responseClient(res, 200, 0, '添加成功', data);
                     return;
                 });
         })
     })
 
-// //用户验证
-// router.get('/userInfo',function (req,res) {
-//     if(req.session.userInfo){
-//         responseClient(res,200,0,'',req.session.userInfo)
-//     }else{
-//         responseClient(res,200,1,'请重新登录',req.session.userInfo)
-//     }
-// });
-//
-// router.get('/logout',function (req,res) {
-//     req.session.destroy();
-//     res.redirect('/');
-// });
+    router.post('/updateArticle',(req,res)=>{
+        const {
+            title,
+            content,
+            time,
+            tags,
+            isPublish,
+            id
+        } = req.body;
+        Article.update({_id:id},{title,content,time,tags:tags.split(','),isPublish})
+            .then(result=>{
+                console.log(result);
+                responseClient(res,200,0,'更新成功',result)
+            }).cancel(err=>{
+            console.log(err);
+            responseClient(res);
+        });
+    });
 
+    router.get('/delArticle',(req,res)=>{
+        let id = req.query.id;
+        Article.remove({_id:id})
+            .then(result=>{
+                if(result.result.n === 1){
+                    responseClient(res,200,0,'删除成功!')
+                }else{
+                    responseClient(res,200,1,'文章不存在');
+                }
+            }).cancel(err=>{
+                responseClient(res);
+        })
+    });
 module.exports = router;

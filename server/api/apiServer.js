@@ -14,6 +14,8 @@ import mongoose from 'mongoose'
 import cookieParser from 'cookie-parser'
 import session from 'express-session'
 
+const  upload=require('../upload');
+
 const port = config.apiPort;
 
 const app = new Express();
@@ -26,7 +28,7 @@ app.use(session({
     cookie: {maxAge: 60 * 1000 * 30}//过期时间
 }));
 
-
+app.post('/upload',upload.dataInput);
 //展示页面路由
 app.use('/', require('./main'));
 //管理页面路由
