@@ -76,6 +76,12 @@ const styles = theme => ({
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
+  },
+  titleImage:{
+      background: '#b3b3b3 no-repeat center center',
+      backgroundSize: 'cover',
+      width: '100vw',
+      height:'calc(100vh - 59px)',
   }
 
 
@@ -109,6 +115,7 @@ class EditorConvertToMarkdown extends Component {
         super(props)
         this.state = {
           editorState: undefined,
+          fileList:[{url:'/uploads/file-1510233376966.jpeg'}]
         }
     }
     onEditorStateChange = (editorState) => {
@@ -141,7 +148,7 @@ class EditorConvertToMarkdown extends Component {
 
 
   render() {
-    const { editorState } = this.state;
+    const { editorState,fileList } = this.state;
     const {classes} = this.props
     return (
         <div>
@@ -171,14 +178,18 @@ class EditorConvertToMarkdown extends Component {
         <Grid container  justify="center" className={classes.root} >
             <Grid   className={classes.container} item xs={12}>
                     <MuUpLoad
-                        listType="card"
+                        listType="picture"
                         wrapperClass = {classes.upload}
                         action="/api/upload"
                         onChange={this.handleChange}
+                        fileList={fileList}
                         >
 
                     </MuUpLoad>
-                    <img src="/uploads/file-1510122577190.jpeg"></img>
+                    {/* <div  className = {classes.titleImage} style={{backgroundImage:`url('/uploads/file-1510233376966.jpeg')`}}>
+
+                    </div> */}
+
 
                       <TextField
                           className={classes.input}

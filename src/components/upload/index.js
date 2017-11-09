@@ -210,7 +210,6 @@ class MuUpLoad extends Component{
         if (!('fileList' in this.props)) {
           this.setState({ fileList: info.fileList });
         }
-         console.log(...info.fileList);
         const { onChange } = this.props;
         if (onChange) {
           onChange(info);
@@ -249,7 +248,6 @@ class MuUpLoad extends Component{
         this.clearProgressTimer();
     }
     render(){
-        console.log(this.state.fileList);
         const {
           showUploadList, listType, onPreview,
           type, disabled, children, className,
