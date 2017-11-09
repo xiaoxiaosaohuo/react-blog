@@ -128,6 +128,16 @@ class EditorConvertToMarkdown extends Component {
             tags:["react","express"]
         })
     }
+    handleChange = ({fileList})=>{
+        console.log(fileList);
+        fileList = fileList.map((file) => {
+            if (typeof file.response ==="object") {
+                file.url = "/uploads/"+file.response.src
+                return file
+            }
+        })
+        this.setState({ fileList })
+    }
 
 
   render() {
@@ -164,6 +174,7 @@ class EditorConvertToMarkdown extends Component {
                         listType="card"
                         wrapperClass = {classes.upload}
                         action="/api/upload"
+                        onChange={this.handleChange}
                         >
 
                     </MuUpLoad>

@@ -1,4 +1,4 @@
-import React ,{PureComponent} from "react"
+import React ,{Component} from "react"
 import { withStyles } from 'material-ui/styles';
 import { LinearProgress } from 'material-ui/Progress';
 import cn from 'classnames'
@@ -8,38 +8,39 @@ const styles = {
     marginTop: 30,
   },
 };
-class UploadList extends PureComponent{
+class UploadList extends Component{
     constructor(props) {
         super(props);
-        this.state = {
-            completed: 0,
-            buffer: 10,
-          };
+
       }
-    progress = () => {
-        const { completed } = this.state;
-        if (completed > 100) {
-          this.setState({ completed: 0, buffer: 10 });
-        } else {
-          const diff = Math.random() * 10;
-          const diff2 = Math.random() * 10;
-          this.setState({ completed: completed + diff, buffer: completed + diff + diff2 });
-        }
-    }
+
     componentDidMount() {
-        // this.timer = setInterval(this.progress, 500);
     }
 
     componentWillUnmount() {
-        // clearInterval(this.timer);
     }
     render(){
         const { classes,items = [] } = this.props;
-        const { completed, buffer } = this.state;
-        console.log(items);
+        const list = items.map((file,index)=>{
+            const {percent,status} = file;
+
+            if(status=="uploading"|| (!file.thumbUrl && !file.url)){
+                const diff = Math.random() * 10;
+                const diff2 = Math.random() * 10;
+                let completed =percent+diff;
+                let buffer = completed+ diff2
+                if(completed>100){
+                    completed =0
+                    buffer = 10
+                }
+                return <LinearProgress key = {index} mode="buffer" color="primary" value={completed} valueBuffer={buffer} />
+            }else{
+                return <img key = {index} src={file.thumbUrl || file.url} alt={file.name} />
+            }
+        })
         return(
             <div className={classes.root}>
-                <LinearProgress mode="buffer" color="primary" value={completed} valueBuffer={buffer} />
+                {list}
              </div>
         )
     }

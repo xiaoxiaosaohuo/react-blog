@@ -1,4 +1,4 @@
-import React ,{PureComponent} from "react"
+import React ,{Component} from "react"
 import cn from 'classnames'
 import  RcUpload from 'rc-upload'
 import Button from 'material-ui/Button';
@@ -109,7 +109,7 @@ const styles = theme => ({
   //     position: 'relative',
   // }
 })
-class MuUpLoad extends PureComponent{
+class MuUpLoad extends Component{
 
     constructor(props) {
         super(props);
@@ -155,6 +155,7 @@ class MuUpLoad extends PureComponent{
         }, 200);
       }
       onSuccess = (response, file) => {
+
         this.clearProgressTimer();
         try {
           if (typeof response === 'string') {
@@ -209,7 +210,7 @@ class MuUpLoad extends PureComponent{
         if (!('fileList' in this.props)) {
           this.setState({ fileList: info.fileList });
         }
-
+         console.log(...info.fileList);
         const { onChange } = this.props;
         if (onChange) {
           onChange(info);
@@ -248,6 +249,7 @@ class MuUpLoad extends PureComponent{
         this.clearProgressTimer();
     }
     render(){
+        console.log(this.state.fileList);
         const {
           showUploadList, listType, onPreview,
           type, disabled, children, className,
