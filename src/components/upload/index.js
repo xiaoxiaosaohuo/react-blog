@@ -3,10 +3,9 @@ import cn from 'classnames'
 import  RcUpload from 'rc-upload'
 import Button from 'material-ui/Button';
 // import green from 'material-ui/colors/green';
-import CameraIcon from 'material-ui-icons/PhotoCamera';
+
 import { withStyles } from 'material-ui/styles';
 import FileUpload from 'material-ui-icons/FileUpload';
-// import { CircularProgress } from 'material-ui/Progress';
 import UploadList from './uploadList';
 import { fileToObject, genPercentAdd, getFileItem, removeFileItem } from './utils';
 const styles = theme => ({
@@ -83,31 +82,7 @@ const styles = theme => ({
         },
 
   },
-  // buttonSuccess: {
-  //   backgroundColor: green[500],
-  //   '&:hover': {
-  //     backgroundColor: green[700],
-  //   },
-  // },
-  // fabProgress: {
-  //   color: green[500],
-  //   position: 'absolute',
-  //   top: -6,
-  //   left: -6,
-  //   zIndex: 1,
-  // },
-  // buttonProgress: {
-  //   color: green[500],
-  //   position: 'absolute',
-  //   top: '50%',
-  //   left: '50%',
-  //   marginTop: -12,
-  //   marginLeft: -12,
-  // },
-  // progressWrapper:{
-  //     margin: theme.spacing.unit,
-  //     position: 'relative',
-  // }
+
 })
 class MuUpLoad extends Component{
 
@@ -118,7 +93,7 @@ class MuUpLoad extends Component{
         };
       }
       onStart = (file) => {
-
+          // debugger;
 
         let targetItem;
         let nextFileList = this.state.fileList.concat();
@@ -206,6 +181,29 @@ class MuUpLoad extends Component{
           fileList,
         });
   }
+    handleRemove(file) {
+    const { onRemove } = this.props;
+
+    Promise.resolve(typeof onRemove === 'function' ? onRemove(file) : onRemove).then(ret => {
+          // Prevent removing file
+          if (ret === false) {
+            return;
+          }
+
+          const removedFileList = removeFileItem(file, this.state.fileList);
+          if (removedFileList) {
+            this.onChange({
+              file,
+              fileList: removedFileList,
+            });
+          }
+        });
+    }
+    handleManualRemove = (file) => {
+        this.refs.upload.abort(file);
+        file.status = 'removed'; // eslint-disable-line
+        this.handleRemove(file);
+    }
     onChange = (info) => {
         if (!('fileList' in this.props)) {
           this.setState({ fileList: info.fileList });
@@ -275,24 +273,17 @@ class MuUpLoad extends Component{
                 listType={listType}
                 items={this.state.fileList}
                 // onPreview={onPreview}
-                // onRemove={this.handleManualRemove}
+                onRemove={this.handleManualRemove}
                 // showRemoveIcon={showRemoveIcon}
                 // showPreviewIcon={showPreviewIcon}
-                // locale={this.getLocale()}
               />
             ) : null;
         const uploadButton = (
           <div className={uploadButtonCls}
-            //   style={{ display: children ? '' : 'none' }}
+              style={{ display: children ? '' : 'none' }}
               >
             <RcUpload {...rcUploadProps} ref="upload" >
-                {/* <div className={classes.progressWrapper}> */}
-                     <Button fab color="primary" >
-                         <CameraIcon/>
-                     </Button>
-                     {/* <CircularProgress size={68} className={classes.fabProgress} /> */}
-                 {/* </div> */}
-                <div className='upload-text'>上传题图</div>
+
             </RcUpload>
           </div>
         );

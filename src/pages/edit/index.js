@@ -14,6 +14,7 @@ import TextField from 'material-ui/TextField';
 import purple from 'material-ui/colors/purple';
 import Save from 'material-ui-icons/Save';
 import Send from 'material-ui-icons/Send';
+import CameraIcon from 'material-ui-icons/PhotoCamera';
 import MuUpLoad from '../../components/upload';
 import {actions as IndexActions} from '../../reducers/article'
 const content = {"entityMap":{},"blocks":[{"key":"637gr","text":"Initialized from content state.","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}]};
@@ -115,7 +116,8 @@ class EditorConvertToMarkdown extends Component {
         super(props)
         this.state = {
           editorState: undefined,
-          fileList:[{url:'/uploads/file-1510233376966.jpeg'}]
+          // fileList:[{url:'/uploads/file-1510233376966.jpeg'}]
+          fileList:[]
         }
     }
     onEditorStateChange = (editorState) => {
@@ -136,12 +138,12 @@ class EditorConvertToMarkdown extends Component {
         })
     }
     handleChange = ({fileList})=>{
-        console.log(fileList);
         fileList = fileList.map((file) => {
             if (typeof file.response ==="object") {
                 file.url = "/uploads/"+file.response.src
                 return file
             }
+            return file
         })
         this.setState({ fileList })
     }
@@ -149,7 +151,16 @@ class EditorConvertToMarkdown extends Component {
 
   render() {
     const { editorState,fileList } = this.state;
-    const {classes} = this.props
+    const {classes} = this.props;
+    const uploadBtn = (
+        <div>
+            <Button fab color="primary" >
+                <CameraIcon/>
+            </Button>
+            <div className='upload-text'>添加题图</div>
+        </div>
+
+    )
     return (
         <div>
             <Grid   className={classes.buttonGroup}  >
@@ -184,7 +195,7 @@ class EditorConvertToMarkdown extends Component {
                         onChange={this.handleChange}
                         fileList={fileList}
                         >
-
+                            {fileList.length>=1?null:uploadBtn}
                     </MuUpLoad>
                     {/* <div  className = {classes.titleImage} style={{backgroundImage:`url('/uploads/file-1510233376966.jpeg')`}}>
 

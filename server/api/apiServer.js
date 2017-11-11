@@ -35,7 +35,7 @@ app.use('/', require('./main'));
 // app.use('/admin', require('./admin'));
 
 mongoose.Promise = require('bluebird');
-mongoose.connect(`mongodb://jinxin:jinxin@localhost/test`, function (err) {
+mongoose.connect(`mongodb://jinxin:jinxin@localhost/test`,{useMongoClient: true,}, function (err) {
     if (err) {
         console.log(err, "数据库连接失败");
         return;

@@ -19,12 +19,28 @@ const styles = {
       bottom:0,
       display:'flex',
       flexDirection:'row',
+      alignItems:'center',
       background: 'rgba(0, 0, 0, .75)',
       borderRadius: '4px 0 0 0',
       border: 0,
-      color:'#fff'
-
-
+      color:'#fff',
+      '& a':{
+            width: 48,
+            display: 'flex',
+            justifyContent: 'center',
+            height: '100%',
+            alignItems: 'center',
+            cursor:'pointer'
+      },
+      '& a:hover':{
+          background:"rgba(207, 216, 230, .1)"
+      },
+  },
+  imgWrapper:{
+      '& img':{
+          display:'block',
+          overflow:'hidden'
+      }
   }
 };
 class UploadList extends Component{
@@ -39,12 +55,16 @@ class UploadList extends Component{
     componentWillUnmount() {
     }
     handleClose = (file)=>{
-        console.log(file);
+        const { onRemove } = this.props;
+        if (onRemove) {
+          onRemove(file);
+        }
     }
     render(){
         const { classes,items = [],listType,showRemoveIcon } = this.props;
         const list = items.map((file,index)=>{
             const {percent,status} = file;
+            console.log(percent);
             let content = null;
             if (listType === 'picture') {
                 if(status=="uploading"|| (!file.thumbUrl && !file.url)){
@@ -58,8 +78,8 @@ class UploadList extends Component{
                     }
                     content =  <LinearProgress key = {index} mode="buffer" color="primary" value={completed} valueBuffer={buffer} />
                 }else{
-                    content =  <div key = {index}>
-                        <img width="100%" height="205" src={file.thumbUrl || file.url} alt={file.name}></img>
+                    content =  <div key = {index} className = {classes.imgWrapper}>
+                        <img width="100%" height="100%" src={file.thumbUrl || file.url} alt={file.name}></img>
                     </div>
 
                     // return <img key = {index} src={file.thumbUrl || file.url} alt={file.name} />
