@@ -15,6 +15,14 @@ import purple from 'material-ui/colors/purple';
 import Save from 'material-ui-icons/Save';
 import Send from 'material-ui-icons/Send';
 import CameraIcon from 'material-ui-icons/PhotoCamera';
+
+import { MenuItem } from 'material-ui/Menu';
+import { FormControl } from 'material-ui/Form';
+import Select from 'material-ui/Select';
+import Input, { InputLabel } from 'material-ui/Input';
+
+
+import Reward from '../../components/reward'
 import MuUpLoad from '../../components/upload';
 import {actions as IndexActions} from '../../reducers/article'
 const content = {"entityMap":{},"blocks":[{"key":"637gr","text":"Initialized from content state.","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}]};
@@ -83,7 +91,13 @@ const styles = theme => ({
       backgroundSize: 'cover',
       width: '100vw',
       height:'calc(100vh - 59px)',
-  }
+  },
+  formControl:{
+      marginTop:theme.spacing.unit * 2,
+      marginBottom:theme.spacing.unit * 2,
+      width:'100%'
+  },
+  
 
 
   })
@@ -111,13 +125,18 @@ const styles = theme => ({
 
 
     }
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
 class EditorConvertToMarkdown extends Component {
     constructor(props){
         super(props)
         this.state = {
           editorState: undefined,
           // fileList:[{url:'/uploads/file-1510233376966.jpeg'}]
-          fileList:[]
+          fileList:[],
+          topics: [],
+
         }
     }
     onEditorStateChange = (editorState) => {
@@ -148,9 +167,11 @@ class EditorConvertToMarkdown extends Component {
         this.setState({ fileList })
     }
 
-
+    handleTopicChange = event => {
+       this.setState({ topics: event.target.value });
+     };
   render() {
-    const { editorState,fileList } = this.state;
+    const { editorState,fileList,topics } = this.state;
     const {classes} = this.props;
     const uploadBtn = (
         <div>
@@ -161,6 +182,14 @@ class EditorConvertToMarkdown extends Component {
         </div>
 
     )
+    const rawTopics =[
+        "React",
+        "Node",
+        "Express",
+        "Git",
+        "CSS",
+        "HTML"
+    ]
     return (
         <div>
             <Grid   className={classes.buttonGroup}  >
@@ -178,8 +207,17 @@ class EditorConvertToMarkdown extends Component {
                         </Button>
 
                     </Grid>
+                    <Grid    >
+                        <Reward></Reward>
+
+                    </Grid>
                     <Grid>
-                        <Button fab color="accent" aria-label="save" className={classes.button}>
+                        <Button
+                            fab
+                            color="accent"
+                            aria-label="save"
+                            title="保存"
+                            className={classes.button}>
                             <Save />
                         </Button>
                     </Grid>
@@ -209,6 +247,35 @@ class EditorConvertToMarkdown extends Component {
                           placeholder="请输入标题"
 
                       />
+
+                      <FormControl className={classes.formControl}>
+                          <Select
+                            multiple
+                            value={topics}
+                            onChange={this.handleTopicChange}
+                            input={<Input id="name-multiple" />}
+                            MenuProps={{
+                              PaperProps: {
+                                style: {
+                                  maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+                                  width: 200,
+                                },
+                              },
+                            }}
+                          >
+                            {rawTopics.map(name => (
+                              <MenuItem
+                                key={name}
+                                value={name}
+                                style={{
+                                  fontWeight: topics.indexOf(name) !== -1 ? '500' : '400',
+                                }}
+                              >
+                                {name}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
                         <div className="demo-section-wrapper">
                           <div className="demo-editor-wrapper">
                             <Editor
