@@ -1,7 +1,6 @@
 import React,{Component} from "react";
 
 import PropTypes from 'prop-types';
-
 import {  bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
 import { withStyles } from 'material-ui/styles';
@@ -13,7 +12,6 @@ import { FormControl} from 'material-ui/Form';
 
 
 import {actions as IndexActions} from '../../reducers/index'
-console.log(IndexActions);
 const styles = theme => ({
   root: {
     width:400
@@ -75,6 +73,7 @@ class Login extends Component{
 
   handleSubmit = (e)=>{
       const {name,password} = this.state;
+
       this.props.login({username:name,password:password})
   }
   componentWillReceiveProps(nextProps){
