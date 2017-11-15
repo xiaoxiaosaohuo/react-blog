@@ -151,7 +151,7 @@ class EditorConvertToMarkdown extends Component {
         if(!this.state.editorState||!this.title){
             return false
         }
-        const data = convertToRaw(this.state.editorState.getCurrentContent())
+        const data = JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent()))
         const {username,userId} = this.props.userInfo;
         console.log(this.state.fileList);
         const values = {
