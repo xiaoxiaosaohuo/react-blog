@@ -1,7 +1,7 @@
 import {combineReducers} from 'redux'
 import { routerReducer } from 'react-router-redux';
 import {reducer as tags} from './tags'
-import {reducer as article} from './article'
+import  article from './article'
 const initialState = {
     isFetching: true,
     msg: {

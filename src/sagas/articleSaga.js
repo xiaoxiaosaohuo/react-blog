@@ -29,3 +29,28 @@ export function* createArticleFlow () {
 
     }
 }
+
+export function* getArticleDetail (data) {
+    yield put({type: IndexActionTypes.FETCH_START});
+    try {
+        return yield call(get, `/article/getArticleDetail?id=${data.id}`);
+    } catch (err) {
+        yield put({type: IndexActionTypes.SET_MESSAGE, msg: '网络请求错误', success: false});
+    } finally {
+        yield put({type: IndexActionTypes.FETCH_END})
+    }
+}
+
+export function* getArticleDetailFlow () {
+    while (true){
+        let req = yield take(ArticleTypes.GET_ARTICLE_DETAIL);
+        let res = yield call(getArticleDetail,req.data);
+        if(res){
+            if(res.code === 0){
+                yield put({type: ArticleTypes.RESPONSE_ARTICLE_DETAIL,msg:"请求成功",data:res.data,success:true});
+            }else{
+                yield put({type: IndexActionTypes.SET_MESSAGE, msg: res.message, success:false });
+            }
+        }
+    }
+}

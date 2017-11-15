@@ -24,7 +24,7 @@ import Input, { InputLabel } from 'material-ui/Input';
 
 import Reward from '../../components/reward'
 import MuUpLoad from '../../components/upload';
-import {actions as IndexActions} from '../../reducers/article';
+import {actions as ArticleActions} from '../../reducers/article';
 import {actions as UserActions} from '../../reducers';
 const content = {"entityMap":{},"blocks":[{"key":"637gr","text":"Initialized from content state.","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}]};
 const styles = theme => ({
@@ -333,7 +333,7 @@ const mapStateToProps = state => ({
     userInfo:state.appState.userInfo
 })
 const mapDispatchToProps = dispatch => ({
-  ...bindActionCreators({createArticle:IndexActions.createArticle,userAuth:UserActions.userAuth},dispatch)
+  ...bindActionCreators({createArticle:ArticleActions.createArticle,userAuth:UserActions.userAuth},dispatch)
 
 })
 

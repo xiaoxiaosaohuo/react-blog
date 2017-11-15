@@ -10,7 +10,8 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
 
 import NotFound from "../../components/notFound"
-import Article from "../../components/article"
+import Articles from "../../components/article"
+import Detail from "../../components/detail"
 import Background from "../../components/background"
 import Search from "../../pages/search"
 import {actions} from '../../reducers/tags'
@@ -255,7 +256,8 @@ class Front extends Component{
 
                             <Switch location={this.props.location}>
                                 <Route path='/about' exact component={NotFound}/>
-                                <Route path='/article' exact component={Article}/>
+                                <Route path='/articles' exact component={Articles}/>
+                                <Route path='/detail' exact component={Detail}/>
                                 <Route path='/search' exact component={Search}/>
                             </Switch>
                             </div>
