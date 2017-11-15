@@ -80,7 +80,8 @@ class Login extends Component{
       const {userInfo} = nextProps;
       console.log(userInfo);
       if(userInfo.username!=this.props.userInfo.username){
-        //   alert(22)
+          sessionStorage.setItem('username', userInfo.username);
+          sessionStorage.setItem('userId', userInfo.userId);
           this.props.history.push("/edit")
       }
   }

@@ -24,14 +24,16 @@ import Input, { InputLabel } from 'material-ui/Input';
 
 import Reward from '../../components/reward'
 import MuUpLoad from '../../components/upload';
-import {actions as IndexActions} from '../../reducers/article'
+import {actions as IndexActions} from '../../reducers/article';
+import {actions as UserActions} from '../../reducers';
 const content = {"entityMap":{},"blocks":[{"key":"637gr","text":"Initialized from content state.","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}]};
 const styles = theme => ({
     root: theme.mixins.gutters({
     paddingTop: 16,
     paddingBottom: 16,
     marginTop: theme.spacing.unit * 3,
-    with:960
+    with:960,
+    minHeight:1000
   }),
   container:{
       maxWidth:960,
@@ -97,7 +99,7 @@ const styles = theme => ({
       marginBottom:theme.spacing.unit * 2,
       width:'100%'
   },
-  
+
 
 
   })
@@ -138,23 +140,38 @@ class EditorConvertToMarkdown extends Component {
           topics: [],
 
         }
+        this.query = {}
     }
     onEditorStateChange = (editorState) => {
         this.setState({
           editorState,
         })
     }
-    handleSave = ()=>{
+    getValues = (state)=>{
+        if(!this.state.editorState||!this.title){
+            return false
+        }
+        const data = JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent()))
+        const {username,userId} = this.props.userInfo;
+        console.log(this.state.fileList);
+        const values = {
+            author: sessionStorage.getItem('username'),
+            title:this.title,
+            titleImage:this.state.fileList[0]?this.state.fileList[0].url:"",
+            content:data,
+            state:state,
+            favoriteCount:0,
+            topics:this.state.topics
+        }
 
-        const data = convertToRaw(this.state.editorState.getCurrentContent())
-        console.log(data)
-        this.props.createArticle({
-            author:"jinxin",
-            "title":"第一票",
-            content:JSON.stringify(data),
-            isPublish:false,
-            tags:["react","express"]
-        })
+        console.log(values)
+
+        return values
+
+    }
+    handleSave = ()=>{
+        const values = this.getValues("draft")
+        this.props.createArticle(values)
     }
     handleChange = ({fileList})=>{
         fileList = fileList.map((file) => {
@@ -166,10 +183,16 @@ class EditorConvertToMarkdown extends Component {
         })
         this.setState({ fileList })
     }
+    handleTitleChange = (e)=>{
+        this.title = e.target.value
+    }
 
-    handleTopicChange = event => {
+    handleTopicChange = (event) => {
        this.setState({ topics: event.target.value });
      };
+     componentWillMount(){
+         this.props.userAuth()
+     }
   render() {
     const { editorState,fileList,topics } = this.state;
     const {classes} = this.props;
@@ -200,7 +223,7 @@ class EditorConvertToMarkdown extends Component {
                             color="primary"
                             aria-label="send"
                             className={classes.button}
-                            onClick={this.handleSave}
+
                             title="发布"
                             >
                             <Send />
@@ -217,6 +240,7 @@ class EditorConvertToMarkdown extends Component {
                             color="accent"
                             aria-label="save"
                             title="保存"
+                            onClick={this.handleSave}
                             className={classes.button}>
                             <Save />
                         </Button>
@@ -243,7 +267,7 @@ class EditorConvertToMarkdown extends Component {
                       <TextField
                           className={classes.input}
                           fullWidth
-                          onChange = {this.onChange}
+                          onChange = {this.handleTitleChange}
                           placeholder="请输入标题"
 
                       />
@@ -309,7 +333,7 @@ const mapStateToProps = state => ({
     userInfo:state.appState.userInfo
 })
 const mapDispatchToProps = dispatch => ({
-  ...bindActionCreators({createArticle:IndexActions.createArticle,},dispatch)
+  ...bindActionCreators({createArticle:IndexActions.createArticle,userAuth:UserActions.userAuth},dispatch)
 
 })
 

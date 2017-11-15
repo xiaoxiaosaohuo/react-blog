@@ -8,8 +8,8 @@ module.exports = new mongoose.Schema({
     creatTime:{ type: Date, default: Date.now },
     title:String,
     content:String,
-    coverImg:String,//封面图片
+    titleImage:String,//封面图片
     favoriteCount:Number,//喜欢次数
-    isPublish:Boolean,//是否发布
-    tags:Array
+    state:String,//是否发布 "draft","published"
+    topics:Array
 });

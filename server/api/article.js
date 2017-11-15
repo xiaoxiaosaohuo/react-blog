@@ -8,11 +8,28 @@ import {responseClient,md5} from '../utils'
  */
 
 router.post('/createArticle', (req, res) => {
-    let {author, title, article} = req.body;
-    console.log(req.body);
-    debugger;
+    const {
+        title,
+        content,
+        creatTime,
+        topics,
+        state,
+        titleImage,
+        favoriteCount,
+    } = req.body;
+    // const author = req.session.userInfo.username;
+    console.log(req.session)
     //保存到数据库
-    let newArticle = new Article(req.body);
+    let newArticle = new Article({
+        title,
+        content,
+        creatTime,
+        topics,
+        state,
+        titleImage,
+        favoriteCount,
+        topics:topics.split(",")
+    });
     newArticle.save()
         .then(function (json) {
             console.log("-----==========")
