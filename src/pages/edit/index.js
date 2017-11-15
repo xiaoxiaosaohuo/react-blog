@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import {  bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
-import { convertToRaw } from 'draft-js';
+import { EditorState, convertToRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import draftToMarkdown from 'draftjs-to-markdown';
 import Codemirror from 'react-codemirror';import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
@@ -134,7 +134,7 @@ class EditorConvertToMarkdown extends Component {
     constructor(props){
         super(props)
         this.state = {
-          editorState: undefined,
+          editorState: EditorState.createEmpty(),
           // fileList:[{url:'/uploads/file-1510233376966.jpeg'}]
           fileList:[],
           topics: [],
@@ -151,7 +151,7 @@ class EditorConvertToMarkdown extends Component {
         if(!this.state.editorState||!this.title){
             return false
         }
-        const data = JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent()))
+        const data = convertToRaw(this.state.editorState.getCurrentContent())
         const {username,userId} = this.props.userInfo;
         console.log(this.state.fileList);
         const values = {

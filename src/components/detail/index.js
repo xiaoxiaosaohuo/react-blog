@@ -3,8 +3,8 @@ import React ,{PureComponent} from 'react';
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import PropTypes from 'prop-types';
-
-
+import {EditorState,convertFromRaw} from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
 import { withStyles } from 'material-ui/styles';
 import cn from 'classnames';
 import Card, { CardHeader, CardMedia, CardContent, CardActions } from 'material-ui/Card';
@@ -20,6 +20,9 @@ import FavoriteIcon from 'material-ui-icons/Favorite';
 import ShareIcon from 'material-ui-icons/Share';
 
 
+import draftToHtml from 'draftjs-to-html';
+
+
 import {actions as ArticleActions } from "../../reducers/article"
 
 const styles = theme => ({
@@ -32,7 +35,9 @@ const styles = theme => ({
         maxWidth:960,
         flexGrow:1,
     },
-
+    hidden:{
+        display:'none'
+    },
   media: {
     height: 194,
   },
@@ -84,7 +89,8 @@ class PostCard extends PureComponent {
         super(props)
         this.state = {
             favorite: false,
-            number:4
+            number:4,
+            editorState:undefined
         }
     }
 
@@ -102,13 +108,31 @@ class PostCard extends PureComponent {
       console.log("我喜欢了啊啊 ");
   }
   componentWillMount(){
-      const id="5a0b063ba2935a1d1e3e47e1";
-      this.props.getDetail({id:"5a0b063ba2935a1d1e3e47e1"})
+      const id="5a0c3c6ea1678a2ccc81751a";
+      this.props.getDetail({id:id})
+  }
+  componentWillReceiveProps(nextProps){
+      const {detail:{content}}=nextProps
+      if(content){
+          const contentState = convertFromRaw(JSON.parse(content))
+          const editorState = EditorState.createWithContent(contentState);
+            this.setState({
+                editorState
+            })
+      }
+
+
+  }
+  onEditorStateChange = (editorState) => {
+      this.setState({
+        editorState,
+      })
   }
 
   render() {
-    const { classes } = this.props;
-    const {favorite,number} = this.state;
+    const { classes,detail } = this.props;
+    const {favorite,number,editorState} = this.state;
+    console.log(editorState);
     console.log(this.props);
     return (
         <Grid container  justify="center" className={classes.root}>
@@ -133,7 +157,15 @@ class PostCard extends PureComponent {
                         title="media"
                       />
                       <CardContent>
-
+                          <Editor
+                                readOnly
+                                editorState={editorState}
+                                toolbarClassName={classes.hidden}
+                                wrapperClassName="rdw-storybook-wrapper"
+                                editorClassName="rdw-storybook-editor"
+                                onEditorStateChange={this.onEditorStateChange}
+                                toolbarHidden={true}
+                              />
                       </CardContent>
                       <CardActions disableActionSpacing>
                         <IconButton

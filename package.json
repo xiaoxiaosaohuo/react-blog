@@ -33,6 +33,7 @@
         "crypto-js": "^3.1.9-1",
         "dateformat": "^3.0.2",
         "draft-js": "^0.10.4",
+        "draftjs-to-html": "^0.7.6",
         "draftjs-to-markdown": "^0.4.5",
         "echarts-for-react": "^2.0.0",
         "express": "^4.15.4",
