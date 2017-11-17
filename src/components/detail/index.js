@@ -105,7 +105,6 @@ class PostCard extends PureComponent {
               number:prevState.favorite?prevState.number-1:prevState.number+1
           }
       })
-      console.log("我喜欢了啊啊 ");
   }
   componentWillMount(){
       const id="5a0c3c6ea1678a2ccc81751a";
@@ -130,7 +129,7 @@ class PostCard extends PureComponent {
   }
 
   render() {
-    const { classes,detail } = this.props;
+    const { classes,detail, } = this.props;
     const {favorite,number,editorState} = this.state;
     console.log(editorState);
     console.log(this.props);
@@ -153,7 +152,7 @@ class PostCard extends PureComponent {
                       />
                       <CardMedia
                         className={classes.media}
-                        image="/2.jpg"
+                        image={detail.titleImage}
                         title="media"
                       />
                       <CardContent>
@@ -175,6 +174,10 @@ class PostCard extends PureComponent {
                               className={cn(classes.iconHover,{[classes.favorite]:favorite})}
                           />
                           <span className={classes.number}>{number}</span>
+
+                        </IconButton>
+                        <IconButton aria-label="Share">
+                              <ShareIcon />
                         </IconButton>
                         <div className={classes.flexGrow} />
                         <div className={classes.tags}>
