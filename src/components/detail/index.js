@@ -131,8 +131,6 @@ class PostCard extends PureComponent {
   render() {
     const { classes,detail, } = this.props;
     const {favorite,number,editorState} = this.state;
-    console.log(editorState);
-    console.log(this.props);
     return (
         <Grid container  justify="center" className={classes.root}>
             <Grid container justify="center" className={classes.container}>

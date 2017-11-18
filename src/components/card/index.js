@@ -3,6 +3,7 @@ import React ,{PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import cn from 'classnames';
+import {isPlainObject} from 'lodash';
 import Card, { CardHeader, CardMedia, CardContent, CardActions } from 'material-ui/Card';
 import Collapse from 'material-ui/transitions/Collapse';
 import Avatar from 'material-ui/Avatar';
@@ -14,7 +15,9 @@ import blue from 'material-ui/colors/blue';
 import FavoriteIcon from 'material-ui-icons/Favorite';
 import ShareIcon from 'material-ui-icons/Share';
 const styles = theme => ({
-
+  card:{
+      marginBottom: theme.spacing.unit * 4,
+  },
   media: {
     height: 194,
   },
@@ -83,14 +86,26 @@ class PostCard extends PureComponent {
       })
       console.log("我喜欢了啊啊 ");
   }
+  getSummary = (block)=>{
+      if(!isPlainObject(block)){
+          return
+      }
+
+    if(block.text.length>200){
+        return  block.text.slice(0,200)+"..."
+    }
+    return  block.text.slice(0,200)
+
+  }
 
   render() {
-    const { classes } = this.props;
+    const { classes,record } = this.props;
     const {favorite,number} = this.state;
+    const {blocks} = JSON.parse(record.content||"{}")
+    const summary = this.getSummary(blocks[0])
 
     return (
-      <div>
-        <Card className={classes.card} style={{maxWidth:960}}>
+        <Card className={classes.card} >
           <CardHeader
             avatar={
               <Avatar
@@ -100,21 +115,32 @@ class PostCard extends PureComponent {
 
               </Avatar>
             }
-            title={<span className={classes.title}>React源码解析</span>}
+            title={<span className={classes.title}>{record.title}</span>}
             subheader="2017-09-21"
           />
           <CardMedia
             className={classes.media}
-            image="/2.jpg"
+            image={record.titleImage}
             title="media"
           />
           <CardContent>
             <Typography component="p">
-              This impressive paella is a perfect party dish and a fun meal to cook together with
-              your guests. Add 1 cup of frozen peas along with the mussels, if you like.
+              {summary}
             </Typography>
           </CardContent>
           <CardActions disableActionSpacing>
+
+
+            <div className={classes.tags}>
+                {record.topics.map((topic,index)=>{
+                    return <a aria-label="Share" key={index}>
+                        {topic}
+                    </a>
+                })}
+
+
+            </div>
+            <div className={classes.flexGrow} />
             <IconButton
                 onClick = {this.handleFavorite}
                 aria-label="Add to favorites">
@@ -123,25 +149,14 @@ class PostCard extends PureComponent {
               />
               <span className={classes.number}>{number}</span>
             </IconButton>
-            <div className={classes.flexGrow} />
-            <div className={classes.tags}>
-                <a aria-label="Share">
-                    React
-                </a>
-                <a aria-label="Share">
-                  算法
-              </a>
-                <a aria-label="Share">
-                    Node
-                </a>
-            </div>
-
+            <IconButton aria-label="Share">
+                  <ShareIcon />
+            </IconButton>
           </CardActions>
 
 
 
         </Card>
-      </div>
     );
   }
 }

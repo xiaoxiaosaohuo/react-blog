@@ -1,10 +1,16 @@
-import React from 'react';
+import React,{PureComponent} from 'react';
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import Grid from 'material-ui/Grid';
 import Paper from 'material-ui/Paper';
 import Typography from 'material-ui/Typography';
 import PostCard   from '../card';
+
+
+import {actions as ArticleActions } from "../../reducers/article"
+
 const styles = theme => ({
 
     root:{
@@ -16,67 +22,58 @@ const styles = theme => ({
         maxWidth:960,
         flexGrow:1,
     },
-      paper: theme.mixins.gutters({
-        paddingTop: 16,
-        paddingBottom: 16,
-        marginTop: theme.spacing.unit * 1,
-        '& img':{
-            width:'50%',
-            height:'50%',
-        }
-      }),
 
 });
 
-const  PaperSheet = (props)=> {
-  const { classes } = props;
-  return (
-    <Grid container  justify="center" className={classes.root}>
-        <Grid container justify="center" className={classes.container}>
+class  PaperSheets extends PureComponent {
+    constructor(props){
+        super(props)
+        this.state={
+
+        }
+    }
+    componentWillMount(){
+        this.props.getArticleList(["React"],1)
+    }
+
+  render(){
+      const { classes,list:{records} } = this.props;
+      return (
+        <Grid container  justify="center" className={classes.root}>
+            <Grid container justify="center" className={classes.container}>
                 <Grid item xs={12} md={12} sm={12}>
-                    <PostCard
-                        
-                        >
-                    </PostCard>
-                  {/* <Paper className={classes.paper} elevation={4}>
-                       <img src="/2.jpg"></img>
-                    <Typography type="headline" component="h3">
-                      This is a sheet of paper.
-                    </Typography>
-                    <Typography type="body1" component="p">
-                      Paper can be used to build surface or other elements for your application.
-                    </Typography>
-                  </Paper> */}
+                    {records.map((record,index)=>{
+                        return <PostCard
+                            key={index}
+                            record={record}
+
+                            >
+                        </PostCard>
+                    })}
+
                 </Grid>
-                <Grid item xs={12} md={12} sm={12}>
-                  <Paper className={classes.paper} elevation={4}>
-                      <img src="/1.jpg"></img>
-                    <Typography type="headline" component="h3">
-                      This is a sheet of paper.
-                    </Typography>
-                    <Typography type="body1" component="p">
-                      Paper can be used to build surface or other elements for your application.
-                    </Typography>
-                  </Paper>
-             </Grid>
-             <Grid item xs={12} md={12} sm={12}>
-               <Paper className={classes.paper} elevation={4}>
-                   <img src="/3.png" ></img>
-                 <Typography type="headline" component="h3">
-                   This is a sheet of paper.
-                 </Typography>
-                 <Typography type="body1" component="p">
-                   Paper can be used to build surface or other elements for your application.
-                 </Typography>
-               </Paper>
-          </Grid>
-    </Grid>
- </Grid>
-  );
+            </Grid>
+         </Grid>
+      );
+    }
 }
 
-PaperSheet.propTypes = {
+PaperSheets.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(PaperSheet);
+function mapStateToProps(state) {
+    return{
+        list: state.article.list,
+    }
+}
+const mapDispatchToProps = dispatch => ({
+...bindActionCreators({getArticleList:ArticleActions.getArticleList},dispatch)
+
+})
+
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(withStyles(styles)(PaperSheets))

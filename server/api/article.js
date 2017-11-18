@@ -48,11 +48,11 @@ router.post('/createArticle', (req, res) => {
             title,
             content,
             time,
-            tags,
+            topics,
             isPublish,
             id
         } = req.body;
-        Article.update({_id:id},{title,content,time,tags:tags.split(','),isPublish})
+        Article.update({_id:id},{title,content,time,topics:topics.split(','),isPublish})
             .then(result=>{
                 console.log(result);
                 responseClient(res,200,0,'更新成功',result)
@@ -92,5 +92,42 @@ router.get('/getArticleDetail', (req, res) => {
        }).cancel(err => {
        responseClient(res);
    });
+});
+
+
+//获取文章
+router.get('/getArticles', function (req, res) {
+    console.log(req.query);
+    let topics = req.query.topics || null;
+    let state = req.query.state;
+    let searchCondition = {
+        state,
+    };
+    if (topics) {
+        searchCondition.topics = topics;
+    }
+
+    let skip = (req.query.pageNum - 1) < 0 ? 0 : (req.query.pageNum - 1) * 5;
+    let responseData = {
+        total: 0,
+        records: []
+    };
+    Article.count(searchCondition)
+        .then(count => {
+            responseData.total = count;
+            Article.find(searchCondition, '_id title content state author viewCount favoriteCount titleImage creatTime topics', {
+                skip: skip,
+                limit: 5
+            })
+                .then(result => {
+                    debugger;
+                    responseData.records = result;
+                    responseClient(res, 200, 0, 'success', responseData);
+                }).cancel(err => {
+                throw err
+            })
+        }).cancel(err => {
+        responseClient(res);
+    });
 });
 module.exports = router;

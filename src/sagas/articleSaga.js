@@ -54,3 +54,30 @@ export function* getArticleDetailFlow () {
         }
     }
 }
+
+export function* getArticleList (topics,pageNum) {
+    yield put({type: IndexActionTypes.FETCH_START});
+    try {
+        return yield call(get, `/article/getArticles?pageNum=${pageNum}&state=draft&topics=${topics}`);
+    } catch (err) {
+        yield put({type: IndexActionTypes.SET_MESSAGE, msg: '网络请求错误', success: false});
+    } finally {
+        yield put({type: IndexActionTypes.FETCH_END})
+    }
+}
+
+export function* getArticlesListFlow () {
+    while (true){
+        let req = yield take(ArticleTypes.GET_ARTICLE_LIST);
+        console.log(req);
+        let res = yield call(getArticleList,req.topics,req.pageNum);
+        if(res){
+            if(res.code === 0){
+                res.data.pageNum = req.pageNum;
+                yield put({type: ArticleTypes.RESPONSE_ARTICLE_LIST,data:res.data});
+            }else{
+                yield put({type: IndexActionTypes.SET_MESSAGE, msg: res.message, sucdess: false});
+            }
+        }
+    }
+}

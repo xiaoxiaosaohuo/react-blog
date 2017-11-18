@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "watch-client": "cross-env NODE_ENV=development node  ./server/index.js",
-        "server": "nodemon --watch   server/api server/api/index.js",
+        "server": "nodemon  ./server/api/index.js",
         "start": "npm run watch-client",
         "start-prod": "cross-env NODE_ENV=production node bin/server",
         "test": "echo \"Error: no test specified\" && exit 1"
